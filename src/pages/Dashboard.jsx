@@ -1,3 +1,5 @@
-export default function Dashboard() {
-    return <h1>User Dashboard</h1>;
+function Dashboard() {
+    return <h2>Dashboard</h2>;
   }
+  
+  export default Dashboard;
