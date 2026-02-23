@@ -6,6 +6,9 @@ import DashboardLayout from "./layout/DashboardLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Orders from "./pages/Orders";
+import Upload from "./pages/Upload";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -17,17 +20,20 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Protected Dashboard Route */}
+          {/* Protected Dashboard Routes */}
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               <PrivateRoute>
-                <DashboardLayout>
-                  <Dashboard />
-                </DashboardLayout>
+                <DashboardLayout />
               </PrivateRoute>
             }
-          />
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="upload" element={<Upload />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
 
         </Routes>
       </Router>
