@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-function ProtectedRoute({ children }) {
+export default function PrivateRoute({ children }) {
   const { user } = useAuth();
 
   if (!user) {
@@ -10,5 +10,3 @@ function ProtectedRoute({ children }) {
 
   return children;
 }
-
-export default ProtectedRoute;
