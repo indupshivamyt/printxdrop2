@@ -4,11 +4,11 @@ import PrivateRoute from "./components/PrivateRoute";
 import DashboardLayout from "./layout/DashboardLayout";
 
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Orders from "./pages/Orders";
-import Upload from "./pages/Upload";
-import Profile from "./pages/Profile";
+import Login from "./pages/auth/Login";
+import Dashboard from "./pages/user/Dashboard";
+import Orders from "./pages/user/Orders";
+import Upload from "./pages/user/Upload";
+import Profile from "./pages/user/Profile";
 
 function App() {
   return (
