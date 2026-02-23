@@ -1,40 +1,57 @@
+import { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { useAuth } from "../../context/AuthContext";
+
 const Dashboard = () => {
+  const { user, role } = useAuth();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!user) return;
+
+      let q;
+
+      if (role === "admin") {
+        // Admin sees all orders
+        q = collection(db, "orders");
+      } else {
+        // Normal user sees only their orders
+        q = query(
+          collection(db, "orders"),
+          where("userId", "==", user.uid)
+        );
+      }
+
+      const querySnapshot = await getDocs(q);
+      const ordersData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setOrders(ordersData);
+    };
+
+    fetchOrders();
+  }, [user, role]);
+
   return (
-    <div className="space-y-6">
+    <div>
+      <h2>Dashboard</h2>
 
-      <h1 className="text-2xl font-bold">Dashboard Overview</h1>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="text-sm text-gray-500">Total Orders</h2>
-          <p className="text-2xl font-semibold mt-2">124</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="text-sm text-gray-500">Pending</h2>
-          <p className="text-2xl font-semibold mt-2">18</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="text-sm text-gray-500">Completed</h2>
-          <p className="text-2xl font-semibold mt-2">96</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="text-sm text-gray-500">Revenue</h2>
-          <p className="text-2xl font-semibold mt-2">₹8,540</p>
-        </div>
-
-      </div>
-
-      {/* Recent Orders Section */}
-      <div className="bg-white p-6 rounded-xl shadow-sm">
-        <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
-        <p className="text-gray-500">Orders table will come here.</p>
-      </div>
-
+      {orders.length === 0 ? (
+        <p>No orders found.</p>
+      ) : (
+        orders.map(order => (
+          <div key={order.id} style={{ marginBottom: "10px" }}>
+            <p><strong>Order ID:</strong> {order.id}</p>
+            <p>Amount: ₹{order.amount}</p>
+            <p>Status: {order.status}</p>
+            <hr />
+          </div>
+        ))
+      )}
     </div>
   );
 };
