@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import DashboardLayout from "./layout/DashboardLayout";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -11,17 +12,23 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
 
+          {/* Protected Dashboard Route */}
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <DashboardLayout>
+                  <Dashboard />
+                </DashboardLayout>
               </PrivateRoute>
             }
           />
+
         </Routes>
       </Router>
     </AuthProvider>
