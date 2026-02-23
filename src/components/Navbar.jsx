@@ -1,13 +1,51 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-function Navbar() {
+const Navbar = () => {
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-      <Link to="/" style={{ marginRight: "10px" }}>Home</Link>
-      <Link to="/login" style={{ marginRight: "10px" }}>Login</Link>
-      <Link to="/dashboard">Dashboard</Link>
-    </nav>
+    <div className="hidden md:flex fixed left-0 top-0 h-full w-60 bg-white shadow-md flex-col p-5">
+      <h2 className="text-xl font-bold mb-8">PrintXdrop</h2>
+
+      <nav className="flex flex-col gap-4">
+
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+          }
+        >
+          Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/orders"
+          className={({ isActive }) =>
+            isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+          }
+        >
+          Orders
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/upload"
+          className={({ isActive }) =>
+            isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+          }
+        >
+          Upload
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) =>
+            isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+          }
+        >
+          Profile
+        </NavLink>
+
+      </nav>
+    </div>
   );
-}
+};
 
 export default Navbar;
